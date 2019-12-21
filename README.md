@@ -1,5 +1,6 @@
 # go-kube-shutdown
 [![GoDoc](https://godoc.org/github.com/abatilo/go-kube-shutdown?status.svg)](http://godoc.org/github.com/abatilo/go-kube-shutdown)
+[![Go Report Card](https://goreportcard.com/badge/github.com/abatilo/go-kube-shutdown)](https://goreportcard.com/report/github.com/abatilo/go-kube-shutdown)
 
 An opinionated library for handling Kubernetes readiness, liveness, and
 shutdown concepts as a first class citizen.
