@@ -9,6 +9,10 @@
 An opinionated library for handling Kubernetes readiness, liveness, and
 shutdown concepts as a first class citizen.
 
+## Demo
+Watch as our demo application will not exit until all requests are complete
+![SVG demoing graceful shutdown](demo.svg)
+
 ## Usage
 Installation:
 ```

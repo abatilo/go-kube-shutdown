@@ -33,7 +33,9 @@ func main() {
 
 	// Simulate a long running request
 	router.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-		<-time.After(time.Second * 5)
+		id := r.URL.Query().Get("id")
+		log.Printf("Waiting 10 seconds for request %s to finish", id)
+		<-time.After(time.Second * 10)
 		w.Write([]byte("pong"))
 	})
 
