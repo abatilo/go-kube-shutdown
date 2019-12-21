@@ -1,3 +1,4 @@
+// Package shutdown makes it easy to add graceful shutdown to your application
 package shutdown
 
 import (

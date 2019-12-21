@@ -4,8 +4,46 @@
 An opinionated library for handling Kubernetes readiness, liveness, and
 shutdown concepts as a first class citizen.
 
+## Usage
+Installation:
+```
+go get -u github.com/abatilo/go-kube-shutdown
+```
+
 ## Examples
 Full examples can be found in the [examples](./examples/) directory.
+
+### Readiness / Healthchecks
+Import:
+```
+import "github.com/abatilo/go-kube-shutdown/pkg/ready"
+```
+
+Add a server that runs on a different port to respond to readiness checks
+```go
+readyChecks := ready.NewChecker()
+readyChecks.Add("passes", func() error {
+	return nil
+})
+readyChecks.Add("fails", func() error {
+	return errors.New("Failure")
+})
+readyChecks.Add("google", ready.HTTPGet("https://www.google.com"))
+
+healthcheckServer := &http.Server{
+	// Run on a different port that isn't exposed to the world
+	Addr:    ":9091",
+	Handler: readyChecks,
+}
+// Run alongside your main web server
+go healthcheckServer.ListenAndServe()
+```
+
+### Graceful shutdown
+Import:
+```
+import "github.com/abatilo/go-kube-shutdown/pkg/shutdown"
+```
 
 Create your server ahead of time and start it by running `shutdown.StartSafeServer`.
 ```go
