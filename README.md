@@ -4,6 +4,7 @@
 [![license](https://img.shields.io/github/license/abatilo/go-kube-shutdown.svg)](https://github.com/abatilo/go-kube-shutdown/blob/master/LICENSE)
 [![release](https://img.shields.io/github/release/abatilo/go-kube-shutdown.svg)](https://github.com/abatilo/go-kube-shutdown/releases/latest)
 [![GitHub release date](https://img.shields.io/github/release-date/abatilo/go-kube-shutdown.svg)](https://github.com/abatilo/go-kube-shutdown/releases)
+![Build](https://github.com/abatilo/go-kube-shutdown/workflows/.github/workflows/release.yml/badge.svg)
 
 An opinionated library for handling Kubernetes readiness, liveness, and
 shutdown concepts as a first class citizen.

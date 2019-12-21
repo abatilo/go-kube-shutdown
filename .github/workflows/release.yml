@@ -1,6 +1,4 @@
-name: Release
 on: push
-
 jobs:
   ci:
     strategy:
@@ -12,7 +10,7 @@ jobs:
     - uses: actions/setup-go@v1
       with:
         go-version: ${{ matrix.go_version }}
-    - name: build project
+    - name: Build project
       run: |
         go build ./...
   release:
