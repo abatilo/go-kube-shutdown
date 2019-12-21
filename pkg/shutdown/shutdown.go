@@ -9,7 +9,15 @@ import (
 	"syscall"
 )
 
-// StartSafeServer wraps the server to shutdown gracefully. This implementation handles SIGINT and SIGTERM
+// StartSafeServer wraps the server to shutdown gracefully. This implementation
+// handles SIGINT and SIGTERM cleanly. Pass in your *http.Server which will be
+// started for you. Second, pass in a path for where your liveness marker file
+// should live. This can be used by your Kubernetes liveness probe to see
+// whether the server has started. We will create a file at that location right
+// before the server starts and we will delete the file right after the server
+// shutsdown. This lets you decouple the requirement for http traffic to be
+// routable to the service in order to figure out if the application process
+// has been stopped.
 //
 // Implementation heavily inspired by:
 //
