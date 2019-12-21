@@ -1,4 +1,2 @@
-github.com/abatilo/go-kube-shutdown v0.1.0 h1:RF3RNyRLNhaaF56g+aN/mT4FmkyI1SJ0legSZLATDNs=
-github.com/abatilo/go-kube-shutdown v0.1.0/go.mod h1:3O3VxpQcUF576FQnoe1IhUImAKJQ5M6TOwGb5jxXJuo=
-github.com/abatilo/go-kube-shutdown v0.2.0 h1:ql5IKiDjAXtrCA++IlCkkWz40YRiWAeAs+KJx5ixw+4=
-github.com/abatilo/go-kube-shutdown v0.2.0/go.mod h1:3O3VxpQcUF576FQnoe1IhUImAKJQ5M6TOwGb5jxXJuo=
+github.com/abatilo/go-kube-shutdown v1.0.0 h1:z7fzH1gxkEhEPC7BYfyg1bx+IveaRjLqFskIe3RdXFg=
+github.com/abatilo/go-kube-shutdown v1.0.0/go.mod h1:3O3VxpQcUF576FQnoe1IhUImAKJQ5M6TOwGb5jxXJuo=
