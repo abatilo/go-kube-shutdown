@@ -2,7 +2,21 @@ name: Release
 on: push
 
 jobs:
+  ci:
+    strategy:
+      matrix:
+        go_version: ['1.11', '1.12', '1.13']
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@master
+    - uses: actions/setup-go@v1
+      with:
+        go-version: ${{ matrix.go_version }}
+    - name: build project
+      run: |
+        go build ./...
   release:
+    needs: [ci]
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
