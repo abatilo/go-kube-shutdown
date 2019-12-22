@@ -30,7 +30,7 @@ import "github.com/abatilo/go-kube-shutdown/pkg/ready"
 
 Add a server that runs on a different port to respond to readiness checks
 ```go
-readyChecks := ready.NewChecker()
+readyChecks := ready.NewChecks()
 readyChecks.Add("passes", func() error {
 	return nil
 })
