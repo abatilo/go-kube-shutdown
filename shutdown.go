@@ -9,6 +9,10 @@ import (
 	"syscall"
 )
 
+const (
+	defaultPath = "/live"
+)
+
 type httpServer interface {
 	Shutdown(ctx context.Context) error
 	ListenAndServe() error
@@ -34,7 +38,12 @@ type LivenessOptions struct {
 //
 // https://medium.com/over-engineering/graceful-shutdown-with-go-http-servers-and-kubernetes-rolling-updates-6697e7db17cf
 func StartSafeServer(server httpServer, options *LivenessOptions) error {
-	livenessFile, err := os.Create(options.Path)
+	path := options.Path
+	if path == "" {
+		path = defaultPath
+	}
+
+	livenessFile, err := os.Create(path)
 
 	if err != nil {
 		return fmt.Errorf("Failed to create liveness marker file: %v", err)
