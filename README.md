@@ -9,10 +9,6 @@
 An opinionated library for handling Kubernetes readiness, liveness, and
 shutdown concepts as a first class citizen.
 
-## Demo
-Watch as our demo application will not exit until all requests are complete
-![SVG demoing graceful shutdown](demo.svg)
-
 ## Usage
 Installation:
 ```
@@ -24,54 +20,42 @@ Full examples can be found in the [examples](./examples/) directory.
 
 ### Readiness / Healthchecks
 Import:
-```
-import "github.com/abatilo/go-kube-shutdown/pkg/ready"
+```go
+import "github.com/abatilo/go-kube-shutdown"
 ```
 
 Add a server that runs on a different port to respond to readiness checks
 ```go
-readyChecks := ready.NewChecks()
-readyChecks.Add("passes", func() error {
-	return nil
-})
-readyChecks.Add("fails", func() error {
-	return errors.New("Failure")
-})
-readyChecks.Add("google", ready.HTTPGet("https://www.google.com"))
+package main
 
-healthcheckServer := &http.Server{
-	// Run on a different port that isn't exposed to the world
-	Addr:    ":9091",
-	Handler: readyChecks,
+import (
+	"log"
+	"net/http"
+	"time"
+
+	shutdown "github.com/abatilo/go-kube-shutdown"
+)
+
+func main() {
+	mux := http.NewServeMux()
+	mux.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		log.Println("Received request, waiting...")
+		time.Sleep(3 * time.Second)
+		w.Write([]byte("Hello world"))
+	})
+
+	srv := &http.Server{
+		Addr:    ":8080",
+		Handler: mux,
+	}
+
+	log.Println("Starting server...")
+	shutdown.StartSafeServer(srv, &shutdown.LivenessOptions{
+		Path: "/tmp/live",
+	})
+	log.Println("Server stopped...")
 }
-// Run alongside your main web server
-go healthcheckServer.ListenAndServe()
 ```
-
-### Graceful shutdown
-Import:
-```
-import "github.com/abatilo/go-kube-shutdown/pkg/shutdown"
-```
-
-Create your server ahead of time and start it by running `shutdown.StartSafeServer`.
-```go
-server := &http.Server{
-	Addr:    ":9090",
-}
-
-log.Printf("Starting a server that will shutdown safely")
-livenessFileMarker := "/tmp/liveness"
-err := shutdown.StartSafeServer(server, livenessFileMarker)
-if err != http.ErrServerClosed {
-	log.Printf("Server did not shutdown cleanly: %v", err)
-}
-log.Printf("Connections have drained from the server and the server has shutdown")
-```
-
-Your server will be started using `server.ListenAndServe()` but is now wrapped with a goroutine and channel that will ensure that on shutdown, we wait for connections to drain before actually exiting.
-
-Check the [GoDoc](https://godoc.org/github.com/abatilo/go-kube-shutdown?status.svg) for more details.
 
 ## Motivation
 I've seen a lot of libraries that misunderstand parts of the application
