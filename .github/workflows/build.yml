@@ -3,11 +3,11 @@ jobs:
   ci:
     strategy:
       matrix:
-        go_version: ['1.11', '1.12', '1.13']
+        go_version: ['1.11', '1.12', '1.13', '1.14']
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
-    - uses: actions/setup-go@v1
+    - uses: actions/setup-go@v2
       with:
         go-version: ${{ matrix.go_version }}
     - name: Build project
@@ -17,8 +17,8 @@ jobs:
     needs: [ci]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@master
+    - uses: actions/checkout@v2
     - name: Generate release
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: npx semantic-release@next
+      run: npx semantic-release
